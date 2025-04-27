@@ -1,0 +1,20 @@
+# Terraform
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+
+# Spring Boot (Gradle)
+spring-boot-app/.gradle/
+spring-boot-app/build/
+
+# VSCode settings
+spring-boot-app/.vscode/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+
+# Java build artifacts
+*.class
