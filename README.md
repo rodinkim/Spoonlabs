@@ -50,21 +50,21 @@ EKS 클러스터를 통해 Spring Boot 애플리케이션을 배포하는 프로
 
 ---
 
-## 4. Kubernetes 리소스 배포
-
-- `Deployment`, `Service`, `Ingress` 리소스를 작성하여 애플리케이션을 배포합니다.
-- 서비스는 NodePort 타입으로 생성하고, Ingress를 통해 ALB를 설정하여 외부 트래픽을 라우팅합니다.
-- ALB Controller는 Helm을 통해 설치하여 Kubernetes Ingress 리소스를 관리합니다.
-- 만들어진 이미지는 **affinity** 옵션을 통하여 Private Subnet에 전개된 노드에 위치할 수 있도록 합니다.
-
----
-
-## 5. ALB (Application Load Balancer) 구성
+## 4. ALB (Application Load Balancer) 구성
 
 - ALB는 인터넷에서 EKS 클러스터로의 외부 트래픽을 라우팅하는 역할을 합니다.
 - **ALB Controller**를 Kubernetes에서 실행하여 Ingress 리소스를 처리합니다.
 - ALB는 Public Subnet에 배치되어, 외부에서 접근할 수 있도록 설정됩니다.
 - **IAM Role**을 생성하고 Kubernetes ServiceAccount와 연결하여 ALB Controller가 ALB 리소스를 관리하도록 합니다.
+
+---
+
+## 5. Kubernetes 리소스 배포
+
+- `Deployment`, `Service`, `Ingress` 리소스를 작성하여 애플리케이션을 배포합니다.
+- 서비스는 NodePort 타입으로 생성하고, Ingress를 통해 ALB를 설정하여 외부 트래픽을 라우팅합니다.
+- ALB Controller는 Helm을 통해 설치하여 Kubernetes Ingress 리소스를 관리합니다.
+- 만들어진 이미지는 **affinity** 옵션을 통하여 Private Subnet에 전개된 노드에 위치할 수 있도록 합니다.
 
 ---
 
@@ -82,12 +82,6 @@ docker build -t spring-hello-gradle .
 docker tag spring-hello-gradle:latest <ECR_URL>:latest
 docker push <ECR_URL>:latest
 
-# Kubernetes 매니페스트 적용
-cd kubernetes-manifests
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
-kubectl apply -f ingress.yaml
-
 # ALB 리소스를 관리하는 AWS Load Balancer Controller를 Kubernetes 클러스터에 배포합니다.
 helm install aws-load-balancer-controller \
   eks/aws-load-balancer-controller \
@@ -95,4 +89,12 @@ helm install aws-load-balancer-controller \
   --set clusterName=<cluster-name> \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller
+
+# Kubernetes 매니페스트 적용
+cd kubernetes-manifests
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f ingress.yaml
+
+
 
