@@ -2,7 +2,7 @@
 terraform/.terraform/
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
-
+terraform/.terraform.lock.hcl
 # Spring Boot (Gradle)
 spring-boot-app/.gradle/
 spring-boot-app/build/
