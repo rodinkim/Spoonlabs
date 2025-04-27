@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-hello
+  labels:
+    app: spring-hello
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-hello
+  template:
+    metadata:
+      labels:
+        app: spring-hello
+    spec:
+      affinity:
+        # 1) Private Subnet 노드에만 스케줄링
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: subnet
+                    operator: In
+                    values:
+                      - private
+        # 2) 같은 AZ 내에 파드 중복 방지
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: spring-hello
+              topologyKey: failure-domain.beta.kubernetes.io/zone
+      containers:
+        - name: spring-hello
+          image: 136650373268.dkr.ecr.ap-northeast-2.amazonaws.com/spring-hello-gradle:latest
+          ports:
+            - containerPort: 8080
