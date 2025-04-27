@@ -56,6 +56,7 @@ EKS 클러스터를 통해 Spring Boot 애플리케이션을 배포하는 프로
 - **ALB Controller**를 Kubernetes에서 실행하여 Ingress 리소스를 처리합니다.
 - ALB는 Public Subnet에 배치되어, 외부에서 접근할 수 있도록 설정됩니다.
 - **IAM Role**을 생성하고 Kubernetes ServiceAccount와 연결하여 ALB Controller가 ALB 리소스를 관리하도록 합니다.
+- Ingress 리소스에서 alb.ingress.kubernetes.io/scheme: internet-facing을 설정하여 ALB가 퍼블릭으로 배포되도록 합니다.
 
 ---
 
